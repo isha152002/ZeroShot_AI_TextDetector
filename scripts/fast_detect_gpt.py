@@ -177,6 +177,21 @@ def experiment(args):
             "sampled_crit":  sampled_crit,
         })
 
+    # DEBUG — verify score ranges and separation
+    import numpy as np
+    real_scores   = [x["original_crit"] for x in results]
+    sample_scores = [x["sampled_crit"]  for x in results]
+
+    print("\n=== DEBUG ===")
+    print(f"Human  scores — mean: {np.mean(real_scores):.3f}  std: {np.std(real_scores):.3f}  min: {np.min(real_scores):.3f}  max: {np.max(real_scores):.3f}")
+    print(f"AI     scores — mean: {np.mean(sample_scores):.3f}  std: {np.std(sample_scores):.3f}  min: {np.min(sample_scores):.3f}  max: {np.max(sample_scores):.3f}")
+    print(f"Separation (AI mean - Human mean): {np.mean(sample_scores) - np.mean(real_scores):.3f}")
+    print(f"Inf count  — human: {sum(np.isinf(real_scores))}  AI: {sum(np.isinf(sample_scores))}")
+    print(f"NaN count  — human: {sum(np.isnan(real_scores))}  AI: {sum(np.isnan(sample_scores))}")
+    print(f"Sample human scores (first 5): {real_scores[:5]}")
+    print(f"Sample AI     scores (first 5): {sample_scores[:5]}")
+    print("=== END DEBUG ===\n")
+
     # metrics
     predictions = {
         "real":    [x["original_crit"] for x in results],
