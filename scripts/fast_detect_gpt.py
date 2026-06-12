@@ -178,7 +178,7 @@ def experiment(args):
         })
 
     # DEBUG — verify score ranges and separation
-    import numpy as np
+    
     real_scores   = [x["original_crit"] for x in results]
     sample_scores = [x["sampled_crit"]  for x in results]
 
